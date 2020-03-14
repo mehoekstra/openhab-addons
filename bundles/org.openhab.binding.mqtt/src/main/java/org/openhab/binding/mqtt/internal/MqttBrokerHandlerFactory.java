@@ -12,6 +12,16 @@
  */
 package org.openhab.binding.mqtt.internal;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.thing.Bridge;
@@ -33,10 +43,6 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 /**
  * The {@link MqttBrokerHandlerFactory} is responsible for creating things and thing
  * handlers. It keeps reference to all handlers and implements the {@link MQTTTopicDiscoveryService} service
@@ -51,6 +57,7 @@ public class MqttBrokerHandlerFactory extends BaseThingHandlerFactory implements
     private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Stream
             .of(MqttBindingConstants.BRIDGE_TYPE_SYSTEMBROKER, MqttBindingConstants.BRIDGE_TYPE_BROKER)
             .collect(Collectors.toSet());
+    @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(MqttBrokerHandlerFactory.class);
     protected final Map<String, List<MQTTTopicDiscoveryParticipant>> discoveryTopics = new HashMap<>();
     protected final Set<AbstractBrokerHandler> handlers = Collections
@@ -82,9 +89,6 @@ public class MqttBrokerHandlerFactory extends BaseThingHandlerFactory implements
 
     @Override
     protected @Nullable ThingHandler createHandler(Thing thing) {
-        if (mqttService == null) {
-            throw new IllegalStateException("MqttService must be bound, before ThingHandlers can be created");
-        }
         if (!(thing instanceof Bridge)) {
             throw new IllegalStateException("A bridge type is expected");
         }
@@ -108,8 +112,8 @@ public class MqttBrokerHandlerFactory extends BaseThingHandlerFactory implements
      */
     @Override
     public void subscribe(MQTTTopicDiscoveryParticipant listener, String topic) {
-        List<MQTTTopicDiscoveryParticipant> listenerList = discoveryTopics
-                .computeIfAbsent(topic, t -> new ArrayList<>());
+        List<MQTTTopicDiscoveryParticipant> listenerList = discoveryTopics.computeIfAbsent(topic,
+                t -> new ArrayList<>());
         listenerList.add(listener);
         handlers.forEach(broker -> broker.registerDiscoveryListener(listener, topic));
     }
@@ -118,7 +122,6 @@ public class MqttBrokerHandlerFactory extends BaseThingHandlerFactory implements
      * Unsubscribe a listener from all available broker connections.
      */
     @Override
-    @SuppressWarnings("null")
     public void unsubscribe(MQTTTopicDiscoveryParticipant listener) {
         discoveryTopics.forEach((topic, listenerList) -> {
             listenerList.remove(listener);

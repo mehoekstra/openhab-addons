@@ -378,7 +378,7 @@ public class ChannelState implements MqttMessageSubscriber {
         } else {
             commandString = mqttCommandValue.getMQTTpublishValue(null);
         }
-
+        @SuppressWarnings("null")
         int qos = (config.qos != null) ? config.qos : connection.getQos();
 
         return connection.publish(config.commandTopic, commandString.getBytes(), qos, config.retained);

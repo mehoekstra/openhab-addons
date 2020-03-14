@@ -26,6 +26,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.io.transport.mqtt.MqttBrokerConnection;
 import org.eclipse.smarthome.test.java.JavaOSGiTest;
 import org.junit.Before;
@@ -48,6 +49,8 @@ import com.google.gson.GsonBuilder;
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+        org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE, org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND })
 public class DiscoverComponentsTest extends JavaOSGiTest {
     @Mock
     MqttBrokerConnection connection;

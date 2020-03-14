@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
  * @author David Graeff - Initial contribution
  */
 @NonNullByDefault
+@SuppressWarnings("unused")
 public class SubscribeFieldToMQTTtopic implements MqttMessageSubscriber {
     private final Logger logger = LoggerFactory.getLogger(SubscribeFieldToMQTTtopic.class);
     protected CompletableFuture<@Nullable Void> future = new CompletableFuture<>();
@@ -51,6 +52,8 @@ public class SubscribeFieldToMQTTtopic implements MqttMessageSubscriber {
     /**
      * Implement this interface to be notified of an updated field.
      */
+    @SuppressWarnings("null")
+    @NonNullByDefault
     public interface FieldChanged {
         void fieldChanged(Field field, Object value);
     }

@@ -30,7 +30,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.io.transport.mqtt.MqttBrokerConnection;
 import org.junit.Before;
@@ -44,6 +44,9 @@ import org.openhab.binding.mqtt.generic.mapping.SubscribeFieldToMQTTtopic.FieldC
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+        org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE, org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+        org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
 public class SubscribeFieldToMQTTtopicTests {
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ FIELD })
@@ -52,6 +55,11 @@ public class SubscribeFieldToMQTTtopicTests {
     }
 
     @TopicPrefix
+    @SuppressWarnings("null")
+    @NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+            org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE,
+            org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+            org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
     public static class Attributes extends AbstractMqttAttributeClass {
         @SuppressWarnings("unused")
         public transient String ignoreTransient = "";
@@ -85,7 +93,7 @@ public class SubscribeFieldToMQTTtopicTests {
         public @TestValue("integer") @MQTTvalueTransform(suffix = "_") DataTypeEnum datatype = DataTypeEnum.unknown;
 
         @Override
-        public @NonNull Object getFieldsOf() {
+        public Object getFieldsOf() {
             return this;
         }
     }

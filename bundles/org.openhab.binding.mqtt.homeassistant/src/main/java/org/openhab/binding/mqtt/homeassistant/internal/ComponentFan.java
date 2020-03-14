@@ -30,6 +30,8 @@ public class ComponentFan extends AbstractComponent<ComponentFan.ChannelConfigur
     /**
      * Configuration class for MQTT component
      */
+    @SuppressWarnings("null")
+    @NonNullByDefault
     static class ChannelConfiguration extends BaseChannelConfiguration {
         ChannelConfiguration() {
             super("MQTT Fan");
@@ -47,7 +49,7 @@ public class ComponentFan extends AbstractComponent<ComponentFan.ChannelConfigur
         OnOffValue value = new OnOffValue(channelConfiguration.payload_on, channelConfiguration.payload_off);
         buildChannel(switchChannelID, value, channelConfiguration.name, componentConfiguration.getUpdateListener())//
                 .stateTopic(channelConfiguration.state_topic, channelConfiguration.value_template)//
-                .commandTopic(channelConfiguration.command_topic, channelConfiguration.retain)//
+                .commandTopic(channelConfiguration.command_topic, channelConfiguration.retain, 0)//
                 .build();
     }
 }

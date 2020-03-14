@@ -27,6 +27,8 @@ public class ComponentClimate extends AbstractComponent<ComponentClimate.Channel
     /**
      * Configuration class for MQTT component
      */
+    @SuppressWarnings("null")
+    @NonNullByDefault
     static class ChannelConfiguration extends BaseChannelConfiguration {
         ChannelConfiguration() {
             super("MQTT HVAC");

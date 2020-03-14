@@ -23,6 +23,7 @@ import java.util.TreeMap;
 
 import javax.naming.ConfigurationException;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.config.discovery.DiscoveryListener;
 import org.eclipse.smarthome.config.discovery.DiscoveryResult;
 import org.eclipse.smarthome.io.transport.mqtt.MqttBrokerConnection;
@@ -33,13 +34,15 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openhab.binding.mqtt.MqttBindingConstants;
-import org.openhab.binding.mqtt.internal.discovery.MqttServiceDiscoveryService;
 
 /**
  * Tests cases for {@link MqttServiceDiscoveryService}.
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+        org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE, org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+        org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
 public class ServiceDiscoveryServiceTest {
     @Mock
     private MqttService service;

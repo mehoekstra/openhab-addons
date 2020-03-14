@@ -14,11 +14,10 @@ package org.openhab.binding.mqtt.handler;
 
 import static org.mockito.Mockito.verify;
 
-import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.core.thing.Bridge;
 import org.eclipse.smarthome.io.transport.mqtt.MqttBrokerConnection;
 import org.mockito.Mockito;
-import org.openhab.binding.mqtt.handler.BrokerHandler;
 
 /**
  * Overwrite BrokerHandler to return our mocked/extended MqttBrokerConnection in
@@ -26,6 +25,7 @@ import org.openhab.binding.mqtt.handler.BrokerHandler;
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault
 public class BrokerHandlerEx extends BrokerHandler {
     final MqttBrokerConnectionEx e;
 
@@ -35,7 +35,7 @@ public class BrokerHandlerEx extends BrokerHandler {
     }
 
     @Override
-    protected @NonNull MqttBrokerConnection createBrokerConnection() throws IllegalArgumentException {
+    protected MqttBrokerConnection createBrokerConnection() throws IllegalArgumentException {
         return e;
     }
 

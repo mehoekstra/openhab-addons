@@ -18,16 +18,20 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * Collector to combine a stream of CompletableFutures.
  *
  * @author Jochen Klein - Initial contribution
  *
  */
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+        org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE, org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND })
 public class FutureCollector {
 
     public static <X> Collector<CompletableFuture<X>, Set<CompletableFuture<X>>, CompletableFuture<Void>> allOf() {
-        return Collector.<CompletableFuture<X>, Set<CompletableFuture<X>>, CompletableFuture<Void>> of(
+        return Collector.<CompletableFuture<X>, Set<CompletableFuture<X>>, CompletableFuture<Void>>of(
                 (Supplier<Set<CompletableFuture<X>>>) HashSet::new, Set::add, (left, right) -> {
                     left.addAll(right);
                     return left;

@@ -35,6 +35,8 @@ public class ComponentAlarmControlPanel extends AbstractComponent<ComponentAlarm
     /**
      * Configuration class for MQTT component
      */
+    @SuppressWarnings("null")
+    @NonNullByDefault
     static class ChannelConfiguration extends BaseChannelConfiguration {
         ChannelConfiguration() {
             super("MQTT Alarm");
@@ -70,17 +72,17 @@ public class ComponentAlarmControlPanel extends AbstractComponent<ComponentAlarm
         if (command_topic != null) {
             buildChannel(switchDisarmChannelID, new TextValue(new String[] { channelConfiguration.payload_disarm }),
                     channelConfiguration.name, componentConfiguration.getUpdateListener())//
-                            .commandTopic(command_topic, channelConfiguration.retain)//
+                            .commandTopic(command_topic, channelConfiguration.retain, 0)//
                             .build();
 
             buildChannel(switchArmHomeChannelID, new TextValue(new String[] { channelConfiguration.payload_arm_home }),
                     channelConfiguration.name, componentConfiguration.getUpdateListener())//
-                            .commandTopic(command_topic, channelConfiguration.retain)//
+                            .commandTopic(command_topic, channelConfiguration.retain, 0)//
                             .build();
 
             buildChannel(switchArmAwayChannelID, new TextValue(new String[] { channelConfiguration.payload_arm_away }),
                     channelConfiguration.name, componentConfiguration.getUpdateListener())//
-                            .commandTopic(command_topic, channelConfiguration.retain)//
+                            .commandTopic(command_topic, channelConfiguration.retain, 0)//
                             .build();
         }
     }

@@ -111,6 +111,8 @@ public abstract class AbstractMqttAttributeClass implements SubscribeFieldToMQTT
     /**
      * Implement this interface to be notified of an updated field.
      */
+    @SuppressWarnings("null")
+    @NonNullByDefault
     public interface AttributeChanged {
         /**
          * An attribute has changed

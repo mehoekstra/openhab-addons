@@ -20,6 +20,7 @@ import static org.mockito.Mockito.*;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.config.core.Configuration;
 import org.eclipse.smarthome.core.thing.Bridge;
 import org.eclipse.smarthome.core.thing.ThingStatus;
@@ -44,6 +45,9 @@ import org.osgi.service.cm.ConfigurationException;
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+        org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE, org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+        org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
 public class BrokerHandlerTest {
     private ScheduledExecutorService scheduler;
 

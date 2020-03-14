@@ -12,9 +12,15 @@
  */
 package org.openhab.binding.mqtt.homeassistant.internal;
 
-import com.google.gson.*;
-
 import java.lang.reflect.Type;
+
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 
 /**
  * The {@link ConnectionDeserializer} will de-serialize a connection-list
@@ -23,6 +29,10 @@ import java.lang.reflect.Type;
  *
  * @author Jan N. Klug - Initial contribution
  */
+
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE,
+        org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+        org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
 public class ConnectionDeserializer implements JsonDeserializer<BaseChannelConfiguration.Connection> {
     @Override
     public BaseChannelConfiguration.Connection deserialize(JsonElement json, Type typeOfT,

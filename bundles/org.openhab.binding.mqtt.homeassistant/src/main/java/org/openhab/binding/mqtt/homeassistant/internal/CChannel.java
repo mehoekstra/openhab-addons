@@ -117,6 +117,8 @@ public class CChannel {
         channelState.getCache().resetState();
     }
 
+    @SuppressWarnings("null")
+    @NonNullByDefault
     public static class Builder {
         private AbstractComponent<?> component;
         private ComponentConfiguration componentConfiguration;

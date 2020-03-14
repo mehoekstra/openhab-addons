@@ -26,7 +26,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.config.discovery.DiscoveryResult;
@@ -122,7 +121,7 @@ public class HomeAssistantDiscovery extends AbstractMQTTDiscovery {
     }
 
     @Override
-    public Set<@NonNull ThingTypeUID> getSupportedThingTypes() {
+    public Set<ThingTypeUID> getSupportedThingTypes() {
         return typeProvider.getThingTypeUIDs();
     }
 

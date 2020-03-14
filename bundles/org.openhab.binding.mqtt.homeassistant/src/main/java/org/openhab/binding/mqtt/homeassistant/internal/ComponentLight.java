@@ -44,6 +44,8 @@ public class ComponentLight extends AbstractComponent<ComponentLight.ChannelConf
     /**
      * Configuration class for MQTT component
      */
+    @SuppressWarnings("null")
+    @NonNullByDefault
     static class ChannelConfiguration extends BaseChannelConfiguration {
         ChannelConfiguration() {
             super("MQTT Light");
@@ -107,17 +109,17 @@ public class ComponentLight extends AbstractComponent<ComponentLight.ChannelConf
                 // Some lights use the value_template field for the template, most use state_value_template
                 .stateTopic(channelConfiguration.state_topic, channelConfiguration.state_value_template,
                         channelConfiguration.value_template)//
-                .commandTopic(channelConfiguration.command_topic, channelConfiguration.retain)//
+                .commandTopic(channelConfiguration.command_topic, channelConfiguration.retain, 0)//
                 .build(false);
 
         colorChannel = buildChannel(colorChannelID, value, channelConfiguration.name, this)//
                 .stateTopic(channelConfiguration.rgb_state_topic, channelConfiguration.rgb_value_template)//
-                .commandTopic(channelConfiguration.rgb_command_topic, channelConfiguration.retain)//
+                .commandTopic(channelConfiguration.rgb_command_topic, channelConfiguration.retain, 0)//
                 .build(false);
 
         brightnessChannel = buildChannel(brightnessChannelID, value, channelConfiguration.name, this)//
                 .stateTopic(channelConfiguration.brightness_state_topic, channelConfiguration.brightness_value_template)//
-                .commandTopic(channelConfiguration.brightness_command_topic, channelConfiguration.retain)//
+                .commandTopic(channelConfiguration.brightness_command_topic, channelConfiguration.retain, 0)//
                 .build(false);
 
         channels.put(colorChannelID, colorChannel);

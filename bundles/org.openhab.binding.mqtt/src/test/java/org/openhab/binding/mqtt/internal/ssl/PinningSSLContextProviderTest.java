@@ -25,7 +25,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
-import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.core.util.HexUtils;
 import org.junit.Test;
 
@@ -34,6 +34,7 @@ import org.junit.Test;
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault
 public class PinningSSLContextProviderTest {
 
     @Test
@@ -94,6 +95,10 @@ public class PinningSSLContextProviderTest {
     /**
      * Overwrite {@link #getMessageDigestForSigAlg(String)} method and return a pre-defined {@link PinMessageDigest}.
      */
+    @NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+            org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE,
+            org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+            org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
     public static class PinTrustManagerEx extends PinTrustManager {
         private final PinMessageDigest pinMessageDigest;
 
@@ -102,8 +107,7 @@ public class PinningSSLContextProviderTest {
         }
 
         @Override
-        @NonNull
-        PinMessageDigest getMessageDigestForSigAlg(@NonNull String sigAlg) throws CertificateException {
+        PinMessageDigest getMessageDigestForSigAlg(String sigAlg) throws CertificateException {
             return pinMessageDigest;
         }
     }

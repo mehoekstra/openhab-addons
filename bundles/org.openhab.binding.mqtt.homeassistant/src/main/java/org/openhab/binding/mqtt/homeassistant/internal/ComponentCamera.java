@@ -29,6 +29,8 @@ public class ComponentCamera extends AbstractComponent<ComponentCamera.ChannelCo
     /**
      * Configuration class for MQTT component
      */
+    @SuppressWarnings("null")
+    @NonNullByDefault
     static class ChannelConfiguration extends BaseChannelConfiguration {
         ChannelConfiguration() {
             super("MQTT Camera");

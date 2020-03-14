@@ -36,21 +36,27 @@ import org.openhab.binding.mqtt.generic.internal.MqttThingHandlerFactory;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An MQTT Extension might want to provide additional, dynamic channel types, based on auto-discovery.
  * <p>
- * Just retrieve the `MqttChannelTypeProvider` OSGi service and add (and remove) your channel types.
+ * Just retrieve the {@link MqttChannelTypeProvider} OSGi service and add (and remove) your channel types.
  * <p>
  * This provider is started on-demand only, as soon as {@link MqttThingHandlerFactory} or an extension requires it.
  *
  * @author David Graeff - Initial contribution
  *
  */
-@NonNullByDefault
+@SuppressWarnings("unused")
 @Component(immediate = false, service = { ThingTypeProvider.class, ChannelTypeProvider.class,
         ChannelGroupTypeProvider.class, MqttChannelTypeProvider.class })
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+        org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE, org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+        org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
 public class MqttChannelTypeProvider implements ThingTypeProvider, ChannelGroupTypeProvider, ChannelTypeProvider {
+    private final Logger logger = LoggerFactory.getLogger(MqttChannelTypeProvider.class);
     private final ThingTypeRegistry typeRegistry;
 
     private final Map<ChannelTypeUID, ChannelType> types = new HashMap<>();
@@ -128,6 +134,10 @@ public class MqttChannelTypeProvider implements ThingTypeProvider, ChannelGroupT
 
     public ThingTypeBuilder derive(ThingTypeUID newTypeId, ThingTypeUID baseTypeId) {
         ThingType baseType = typeRegistry.getThingType(baseTypeId);
+        if (baseType == null) {
+            logger.error("Cannot get thing type {}, likely an error!", baseTypeId);
+            return ThingTypeBuilder.instance(newTypeId, "dummy");
+        }
 
         ThingTypeBuilder result = ThingTypeBuilder.instance(newTypeId, baseType.getLabel())
                 .withChannelGroupDefinitions(baseType.getChannelGroupDefinitions())

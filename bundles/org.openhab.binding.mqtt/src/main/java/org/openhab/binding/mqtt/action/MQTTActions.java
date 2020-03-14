@@ -53,12 +53,15 @@ public class MQTTActions implements ThingActions {
         publishMQTT(topic, value, null);
     }
 
+    @SuppressWarnings("deprecation")
     @RuleAction(label = "@text/actionLabel", description = "@text/actionDesc")
     public void publishMQTT(
             @ActionInput(name = "topic", label = "@text/actionInputTopicLabel", description = "@text/actionInputTopicDesc") @Nullable String topic,
             @ActionInput(name = "value", label = "@text/actionInputValueLabel", description = "@text/actionInputValueDesc") @Nullable String value,
             @ActionInput(name = "retain", label = "@text/actionInputRetainlabel", description = "@text/actionInputRetainDesc") @Nullable Boolean retain) {
         AbstractBrokerHandler brokerHandler = handler;
+        @Nullable
+        Boolean doRetain = retain;
         if (brokerHandler == null) {
             logger.warn("MQTT Action service ThingHandler is null!");
             return;
@@ -76,10 +79,10 @@ public class MQTTActions implements ThingActions {
             logger.debug("skipping MQTT publishing of value '{}' as topic is null.", value);
             return;
         }
-        if (retain == null) {
-            retain = connection.isRetain();
+        if (doRetain == null) {
+            doRetain = connection.isRetain();
         }
-        connection.publish(topic, value.getBytes(), connection.getQos(), retain).thenRun(() -> {
+        connection.publish(topic, value.getBytes(), connection.getQos(), doRetain).thenRun(() -> {
             logger.debug("MQTT publish to {} performed", topic);
         }).exceptionally(e -> {
             logger.warn("MQTT publish to {} failed!", topic);
@@ -91,7 +94,8 @@ public class MQTTActions implements ThingActions {
         publishMQTT(actions, topic, value, null);
     }
 
-    public static void publishMQTT(@Nullable ThingActions actions, @Nullable String topic, @Nullable String value, @Nullable Boolean retain) {
+    public static void publishMQTT(@Nullable ThingActions actions, @Nullable String topic, @Nullable String value,
+            @Nullable Boolean retain) {
         if (actions instanceof MQTTActions) {
             ((MQTTActions) actions).publishMQTT(topic, value, retain);
         } else {

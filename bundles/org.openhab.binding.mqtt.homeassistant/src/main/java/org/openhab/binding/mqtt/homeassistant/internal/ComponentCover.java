@@ -30,6 +30,8 @@ public class ComponentCover extends AbstractComponent<ComponentCover.ChannelConf
     /**
      * Configuration class for MQTT component
      */
+    @SuppressWarnings("null")
+    @NonNullByDefault
     static class ChannelConfiguration extends BaseChannelConfiguration {
         ChannelConfiguration() {
             super("MQTT Cover");
@@ -50,7 +52,7 @@ public class ComponentCover extends AbstractComponent<ComponentCover.ChannelConf
 
         buildChannel(switchChannelID, value, channelConfiguration.name, componentConfiguration.getUpdateListener())//
                 .stateTopic(channelConfiguration.state_topic, channelConfiguration.value_template)//
-                .commandTopic(channelConfiguration.command_topic, channelConfiguration.retain)//
+                .commandTopic(channelConfiguration.command_topic, channelConfiguration.retain, 0)//
                 .build();
     }
 }

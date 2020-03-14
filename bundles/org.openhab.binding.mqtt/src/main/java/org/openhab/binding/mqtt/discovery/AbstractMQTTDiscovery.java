@@ -60,6 +60,7 @@ public abstract class AbstractMQTTDiscovery extends AbstractDiscoveryService imp
      */
     protected abstract MQTTTopicDiscoveryService getDiscoveryService();
 
+    @SuppressWarnings("null")
     private synchronized void stopTimeout() {
         if (scheduledStop != null) {
             scheduledStop.cancel(false);

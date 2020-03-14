@@ -12,22 +12,6 @@
  */
 package org.openhab.binding.mqtt.handler;
 
-import org.eclipse.jdt.annotation.NonNullByDefault;
-import org.eclipse.jdt.annotation.Nullable;
-import org.eclipse.smarthome.core.thing.*;
-import org.eclipse.smarthome.core.thing.binding.BaseBridgeHandler;
-import org.eclipse.smarthome.core.thing.binding.ThingHandlerService;
-import org.eclipse.smarthome.core.types.Command;
-import org.eclipse.smarthome.io.transport.mqtt.MqttBrokerConnection;
-import org.eclipse.smarthome.io.transport.mqtt.MqttConnectionObserver;
-import org.eclipse.smarthome.io.transport.mqtt.MqttConnectionState;
-import org.eclipse.smarthome.io.transport.mqtt.MqttService;
-import org.openhab.binding.mqtt.action.MQTTActions;
-import org.openhab.binding.mqtt.discovery.MQTTTopicDiscoveryParticipant;
-import org.openhab.binding.mqtt.discovery.TopicSubscribe;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,10 +19,29 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
+import org.eclipse.smarthome.core.thing.Bridge;
+import org.eclipse.smarthome.core.thing.Channel;
+import org.eclipse.smarthome.core.thing.ChannelUID;
+import org.eclipse.smarthome.core.thing.ThingStatus;
+import org.eclipse.smarthome.core.thing.ThingStatusDetail;
+import org.eclipse.smarthome.core.thing.binding.BaseBridgeHandler;
+import org.eclipse.smarthome.core.thing.binding.ThingHandlerService;
+import org.eclipse.smarthome.core.types.Command;
+import org.eclipse.smarthome.io.transport.mqtt.MqttBrokerConnection;
+import org.eclipse.smarthome.io.transport.mqtt.MqttConnectionObserver;
+import org.eclipse.smarthome.io.transport.mqtt.MqttConnectionState;
+import org.openhab.binding.mqtt.action.MQTTActions;
+import org.openhab.binding.mqtt.discovery.MQTTTopicDiscoveryParticipant;
+import org.openhab.binding.mqtt.discovery.TopicSubscribe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * This base implementation handles connection changes of the {@link MqttBrokerConnection}
  * and puts the Thing on or offline. It also handles adding/removing notifications of the
- * {@link MqttService} and provides a basic dispose() implementation.
+ * MqttService and provides a basic dispose() implementation.
  *
  * @author David Graeff - Initial contribution
  */
@@ -48,7 +51,7 @@ public abstract class AbstractBrokerHandler extends BaseBridgeHandler implements
     private final Logger logger = LoggerFactory.getLogger(AbstractBrokerHandler.class);
 
     final Map<ChannelUID, PublishTriggerChannel> channelStateByChannelUID = new HashMap<>();
-    private final Map<String, @Nullable Map<MQTTTopicDiscoveryParticipant, @Nullable TopicSubscribe>> discoveryTopics = new HashMap<>();
+    private final Map<String, Map<MQTTTopicDiscoveryParticipant, TopicSubscribe>> discoveryTopics = new HashMap<>();
 
     protected @Nullable MqttBrokerConnection connection;
     protected CompletableFuture<MqttBrokerConnection> connectionFuture = new CompletableFuture<>();
@@ -157,11 +160,11 @@ public abstract class AbstractBrokerHandler extends BaseBridgeHandler implements
     /**
      * Removes listeners to the {@link MqttBrokerConnection}.
      */
+    @SuppressWarnings("null")
     @Override
     public void dispose() {
         channelStateByChannelUID.values().forEach(PublishTriggerChannel::stop);
         channelStateByChannelUID.clear();
-
         // keep topics, but stop subscriptions
         discoveryTopics.forEach((topic, listenerMap) -> {
             listenerMap.forEach((listener, topicSubscribe) -> {
@@ -186,11 +189,12 @@ public abstract class AbstractBrokerHandler extends BaseBridgeHandler implements
      * @param listener the discovery participant that wishes to be notified about this topic
      * @param topic the topic (wildcards supported)
      */
+    @SuppressWarnings("null")
     public final void registerDiscoveryListener(MQTTTopicDiscoveryParticipant listener, String topic) {
-        Map<MQTTTopicDiscoveryParticipant, @Nullable TopicSubscribe> topicListeners = discoveryTopics
-                .computeIfAbsent(topic, t -> new HashMap<>());
+        Map<MQTTTopicDiscoveryParticipant, TopicSubscribe> topicListeners = discoveryTopics.computeIfAbsent(topic,
+                t -> new HashMap<>());
         topicListeners.compute(listener, (k, v) -> {
-            if (v != null) {
+            if ((v != null) && (v.getstarted())) {
                 logger.warn("Duplicate subscription for {} to discovery topic {} on broker {}. Check discovery logic!",
                         listener, topic, thing.getUID());
                 v.stop();
@@ -217,27 +221,14 @@ public abstract class AbstractBrokerHandler extends BaseBridgeHandler implements
      * @param topic the topic (as specified during registration)
      */
     public final void unregisterDiscoveryListener(MQTTTopicDiscoveryParticipant listener, String topic) {
-        Map<MQTTTopicDiscoveryParticipant, @Nullable TopicSubscribe> topicListeners = discoveryTopics
-                .compute(topic, (k, v) -> {
-                    if (v == null) {
-                        logger.warn(
-                                "Tried to unsubscribe {} from  discovery topic {} on broker {} but topic not registered at all. Check discovery logic!",
-                                listener, topic, thing.getUID());
-                        return null;
-                    }
-                    v.compute(listener, (l, w) -> {
-                        if (w == null) {
-                            logger.warn(
-                                    "Tried to unsubscribe {} from  discovery topic {} on broker {} but topic not registered for listener. Check discovery logic!",
-                                    listener, topic, thing.getUID());
-                        } else {
-                            w.stop();
-                            logger.trace("Unsubscribed {} from discovery topic {} on broker {}", listener, topic,
-                                    thing.getUID());
-                        }
-                        return null;
-                    });
-                    return v.isEmpty() ? null : v;
-                });
+        @SuppressWarnings("unused")
+        Map<MQTTTopicDiscoveryParticipant, TopicSubscribe> topicListeners = discoveryTopics.compute(topic, (k, v) -> {
+            v.compute(listener, (l, w) -> {
+                w.stop();
+                logger.trace("Unsubscribed {} from discovery topic {} on broker {}", listener, topic, thing.getUID());
+                return w;
+            });
+            return v;
+        });
     }
 }

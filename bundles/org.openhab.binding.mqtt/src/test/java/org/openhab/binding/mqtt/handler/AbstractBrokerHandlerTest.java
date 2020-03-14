@@ -19,6 +19,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.Collections;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.config.core.Configuration;
 import org.eclipse.smarthome.core.thing.Bridge;
 import org.eclipse.smarthome.core.thing.binding.ThingHandlerCallback;
@@ -30,16 +31,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.openhab.binding.mqtt.handler.AbstractBrokerHandler;
-import org.openhab.binding.mqtt.handler.SystemBrokerHandler;
 import org.openhab.binding.mqtt.internal.MqttThingID;
 import org.osgi.service.cm.ConfigurationException;
 
 /**
- * Tests cases for {@link AbstractBrokerHandler}.
+ * Tests cases for AbstractBrokerHandler.
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+        org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE, org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+        org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
 public class AbstractBrokerHandlerTest {
     private final String HOST = "tcp://123.1.2.3";
     private final int PORT = 80;

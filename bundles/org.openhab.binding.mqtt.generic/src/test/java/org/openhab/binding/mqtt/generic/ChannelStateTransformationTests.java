@@ -23,6 +23,8 @@ import java.util.concurrent.CompletableFuture;
 
 import javax.naming.ConfigurationException;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.config.core.Configuration;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingStatus;
@@ -44,6 +46,10 @@ import org.openhab.binding.mqtt.handler.AbstractBrokerHandler;
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+        org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE, org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+        org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
+@SuppressWarnings("unused")
 public class ChannelStateTransformationTests {
 
     @Mock
@@ -81,7 +87,7 @@ public class ChannelStateTransformationTests {
         // Return the mocked connection object if the bridge handler is asked for it
         when(bridgeHandler.getConnectionAsync()).thenReturn(CompletableFuture.completedFuture(connection));
 
-        CompletableFuture<Void> voidFutureComplete = new CompletableFuture<Void>();
+        CompletableFuture<@Nullable Void> voidFutureComplete = new CompletableFuture<@Nullable Void>();
         voidFutureComplete.complete(null);
         doReturn(voidFutureComplete).when(connection).unsubscribeAll();
         doReturn(CompletableFuture.completedFuture(true)).when(connection).subscribe(any(), any());

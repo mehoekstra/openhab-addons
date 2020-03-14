@@ -31,6 +31,7 @@ public class TopicSubscribe implements MqttMessageSubscriber {
     final ThingUID thing;
     final String topic;
     final MQTTTopicDiscoveryParticipant topicDiscoveredListener;
+    boolean started;
 
     /**
      * Creates a {@link TopicSubscribe} object.
@@ -46,13 +47,19 @@ public class TopicSubscribe implements MqttMessageSubscriber {
         this.thing = thing;
         this.topic = topic;
         this.topicDiscoveredListener = topicDiscoveredListener;
+        this.started = false;
+    }
+
+    public boolean getstarted() {
+        return this.started;
     }
 
     @Override
     public void processMessage(String topic, byte[] payload) {
         final MqttBrokerConnection connection = this.connection;
-        if (connection == null)
+        if (connection == null) {
             return;
+        }
         if (payload.length > 0) {
             topicDiscoveredListener.receivedMessage(thing, connection, topic, payload);
         } else {
@@ -65,7 +72,9 @@ public class TopicSubscribe implements MqttMessageSubscriber {
      *
      * @return Completes with true if successful. Completes with false if not connected yet. Exceptionally otherwise.
      */
+    @SuppressWarnings("null")
     public CompletableFuture<Boolean> start() {
+        this.started = true;
         return connection == null ? CompletableFuture.completedFuture(true) : connection.subscribe(topic, this);
     }
 
@@ -74,7 +83,9 @@ public class TopicSubscribe implements MqttMessageSubscriber {
      *
      * @return Completes with true if successful. Exceptionally otherwise.
      */
+    @SuppressWarnings("null")
     public CompletableFuture<Boolean> stop() {
+        this.started = false;
         return connection == null ? CompletableFuture.completedFuture(true) : connection.unsubscribe(topic, this);
     }
 }

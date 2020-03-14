@@ -62,6 +62,8 @@ public class DiscoverComponents implements MqttMessageSubscriber {
     /**
      * Implement this to get notified of new components
      */
+    @SuppressWarnings("null")
+    @NonNullByDefault
     public static interface ComponentDiscovered {
         void componentDiscovered(HaID homeAssistantTopicID, AbstractComponent<?> component);
     }

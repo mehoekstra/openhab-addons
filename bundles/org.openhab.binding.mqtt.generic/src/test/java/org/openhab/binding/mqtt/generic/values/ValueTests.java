@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.core.library.types.DecimalType;
 import org.eclipse.smarthome.core.library.types.HSBType;
 import org.eclipse.smarthome.core.library.types.IncreaseDecreaseType;
@@ -39,6 +40,7 @@ import org.junit.Test;
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault
 public class ValueTests {
     Command p(Value v, String str) {
         return TypeParser.parseCommand(v.getSupportedCommandTypes(), str);

@@ -26,6 +26,8 @@ import org.eclipse.smarthome.io.transport.mqtt.MqttService;
 import org.eclipse.smarthome.io.transport.mqtt.MqttServiceObserver;
 import org.eclipse.smarthome.io.transport.mqtt.MqttWillAndTestament;
 import org.eclipse.smarthome.io.transport.mqtt.reconnect.PeriodicReconnectStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This handler does not much except providing all information from a
@@ -46,6 +48,7 @@ public class SystemBrokerHandler extends AbstractBrokerHandler implements MqttSe
     public static final String PROPERTY_RECONNECT_TIME = "reconnect_time_ms";
     public static final String PROPERTY_KEEP_ALIVE_TIME = "keep_alive_time_ms";
     public static final String PROPERTY_CONNECT_TIMEOUT = "connect_timeout_ms";
+    private final Logger logger = LoggerFactory.getLogger(SystemBrokerHandler.class);
 
     protected final MqttService service;
 
@@ -56,10 +59,15 @@ public class SystemBrokerHandler extends AbstractBrokerHandler implements MqttSe
         this.service = service;
     }
 
+    @SuppressWarnings({ "null", "deprecation" })
     @Override
     public void connectionStateChanged(MqttConnectionState state, @Nullable Throwable error) {
         Map<String, String> properties = new HashMap<>();
 
+        if (connection == null) {
+            logger.warn("connection is null, likely an error!");
+            return;
+        }
         properties.put(PROPERTY_URL, connection.getHost() + ":" + String.valueOf(connection.getPort()));
         final String username = connection.getUser();
         final String password = connection.getPassword();
@@ -102,9 +110,14 @@ public class SystemBrokerHandler extends AbstractBrokerHandler implements MqttSe
         super.initialize();
     }
 
+    @SuppressWarnings({ "null", "unused" })
     @Override
     public void brokerRemoved(String connectionName, MqttBrokerConnection removedConnection) {
         final MqttBrokerConnection connection = this.connection;
+        if (removedConnection == null) {
+            logger.warn("removedConnection is null, likely a bug!");
+            return;
+        }
         if (removedConnection.equals(connection)) {
             connection.removeConnectionObserver(this);
             this.connection = null;

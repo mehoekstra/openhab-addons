@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.config.core.Configuration;
 import org.eclipse.smarthome.core.thing.Channel;
 import org.eclipse.smarthome.core.thing.ChannelUID;
@@ -33,6 +34,7 @@ import org.openhab.binding.mqtt.generic.internal.MqttBindingConstants;
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault
 public class ThingChannelConstants {
     // Common ThingUID and ChannelUIDs
     final public static ThingUID testGenericThing = new ThingUID(GENERIC_MQTT_THING, "genericthing");

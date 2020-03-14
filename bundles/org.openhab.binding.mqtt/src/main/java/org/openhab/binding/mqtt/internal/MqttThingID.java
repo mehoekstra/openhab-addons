@@ -12,6 +12,7 @@
  */
 package org.openhab.binding.mqtt.internal;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.core.thing.ThingUID;
 import org.openhab.binding.mqtt.MqttBindingConstants;
 
@@ -20,6 +21,9 @@ import org.openhab.binding.mqtt.MqttBindingConstants;
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+        org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE, org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+        org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
 public class MqttThingID {
     /**
      * Convert the url (tcp://122.123.111.123:1883) to a version without colons, dots or slashes

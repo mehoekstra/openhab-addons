@@ -22,7 +22,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.junit.Test;
 import org.openhab.binding.mqtt.homeassistant.internal.BaseChannelConfiguration.Connection;
 
@@ -32,12 +32,13 @@ import com.google.gson.GsonBuilder;
 /**
  * @author Jochen Klein - Initial contribution
  */
+@NonNullByDefault
 public class HAConfigurationTests {
 
     private Gson gson = new GsonBuilder().registerTypeAdapterFactory(new ChannelConfigurationTypeAdapterFactory())
             .create();
 
-    private static String readTestJson(final String name) {
+    private static String readTestJson(final String name) throws IOException {
         StringBuilder result = new StringBuilder();
 
         try (BufferedReader in = new BufferedReader(
@@ -49,12 +50,12 @@ public class HAConfigurationTests {
             }
             return result.toString();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
     @Test
-    public void testAbbreviations() {
+    public void testAbbreviations() throws IOException {
         String json = readTestJson("configA.json");
 
         BaseChannelConfiguration config = BaseChannelConfiguration.fromString(json, gson);
@@ -75,7 +76,7 @@ public class HAConfigurationTests {
         if (device != null) {
             assertThat(device.identifiers, contains("H"));
             assertThat(device.connections, is(notNullValue()));
-            List<@NonNull Connection> connections = device.connections;
+            List<Connection> connections = device.connections;
             if (connections != null) {
                 assertThat(connections.get(0).type, is("I1"));
                 assertThat(connections.get(0).identifier, is("I2"));
@@ -88,7 +89,7 @@ public class HAConfigurationTests {
     }
 
     @Test
-    public void testTildeSubstritution() {
+    public void testTildeSubstritution() throws IOException {
         String json = readTestJson("configB.json");
 
         ComponentSwitch.ChannelConfiguration config = BaseChannelConfiguration.fromString(json, gson,
@@ -106,7 +107,7 @@ public class HAConfigurationTests {
     }
 
     @Test
-    public void testSampleFanConfig() {
+    public void testSampleFanConfig() throws IOException {
         String json = readTestJson("configFan.json");
 
         ComponentFan.ChannelConfiguration config = BaseChannelConfiguration.fromString(json, gson,
@@ -115,7 +116,7 @@ public class HAConfigurationTests {
     }
 
     @Test
-    public void testDeviceListConfig() {
+    public void testDeviceListConfig() throws IOException {
         String json = readTestJson("configDeviceList.json");
 
         ComponentFan.ChannelConfiguration config = BaseChannelConfiguration.fromString(json, gson,
@@ -129,7 +130,7 @@ public class HAConfigurationTests {
     }
 
     @Test
-    public void testDeviceSingleStringConfig() {
+    public void testDeviceSingleStringConfig() throws IOException {
         String json = readTestJson("configDeviceSingleString.json");
 
         ComponentFan.ChannelConfiguration config = BaseChannelConfiguration.fromString(json, gson,

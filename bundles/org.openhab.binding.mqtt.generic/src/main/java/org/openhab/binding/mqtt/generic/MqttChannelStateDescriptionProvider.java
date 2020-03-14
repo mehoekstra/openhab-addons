@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
  */
 @Component(service = { DynamicStateDescriptionProvider.class, MqttChannelStateDescriptionProvider.class })
 @NonNullByDefault
+@SuppressWarnings("unused")
 public class MqttChannelStateDescriptionProvider implements DynamicStateDescriptionProvider {
 
     private final Map<ChannelUID, StateDescription> descriptions = new ConcurrentHashMap<>();

@@ -24,7 +24,6 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.library.types.OnOffType;
@@ -337,7 +336,7 @@ public abstract class AbstractMQTTThingHandler extends BaseThingHandler
     }
 
     @Override
-    public void removeAvailabilityTopic(@NonNull String availability_topic) {
+    public void removeAvailabilityTopic(String availability_topic) {
         availabilityStates.computeIfPresent(availability_topic, (topic, state) -> {
             if (connection != null && state != null) {
                 state.stop();

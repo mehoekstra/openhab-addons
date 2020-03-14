@@ -29,6 +29,8 @@ public class ComponentSwitch extends AbstractComponent<ComponentSwitch.ChannelCo
     /**
      * Configuration class for MQTT component
      */
+    @SuppressWarnings("null")
+    @NonNullByDefault
     static class ChannelConfiguration extends BaseChannelConfiguration {
         ChannelConfiguration() {
             super("MQTT Switch");
@@ -48,6 +50,7 @@ public class ComponentSwitch extends AbstractComponent<ComponentSwitch.ChannelCo
         protected @Nullable String json_attributes_template;
     }
 
+    @SuppressWarnings("null")
     public ComponentSwitch(CFactory.ComponentConfiguration componentConfiguration) {
         super(componentConfiguration, ChannelConfiguration.class);
 

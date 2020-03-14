@@ -28,6 +28,8 @@ public class ComponentBinarySensor extends AbstractComponent<ComponentBinarySens
     /**
      * Configuration class for MQTT component
      */
+    @SuppressWarnings("null")
+    @NonNullByDefault
     static class ChannelConfiguration extends BaseChannelConfiguration {
         ChannelConfiguration() {
             super("MQTT Binary Sensor");

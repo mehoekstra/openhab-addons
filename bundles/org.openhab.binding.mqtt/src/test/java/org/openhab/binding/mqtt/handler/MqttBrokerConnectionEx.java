@@ -18,7 +18,6 @@ import static org.mockito.Mockito.*;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.io.transport.mqtt.MqttBrokerConnection;
@@ -107,7 +106,7 @@ public class MqttBrokerConnectionEx extends MqttBrokerConnection {
     }
 
     @Override
-    public @NonNull MqttConnectionState connectionState() {
+    public MqttConnectionState connectionState() {
         return connectionStateOverwrite;
     }
 

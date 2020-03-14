@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.config.discovery.AbstractDiscoveryService;
 import org.eclipse.smarthome.config.discovery.DiscoveryResultBuilder;
 import org.eclipse.smarthome.config.discovery.DiscoveryService;
@@ -38,6 +40,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+        org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+        org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
 @Component(immediate = true, service = DiscoveryService.class, configurationPid = "discovery.systemmqttbroker")
 public class MqttServiceDiscoveryService extends AbstractDiscoveryService implements MqttServiceObserver {
     private final Logger logger = LoggerFactory.getLogger(MqttServiceDiscoveryService.class);
@@ -50,7 +55,7 @@ public class MqttServiceDiscoveryService extends AbstractDiscoveryService implem
 
     @Override
     @Activate
-    protected void activate(Map<String, Object> config) {
+    protected void activate(@Nullable Map<String, @Nullable Object> config) {
         super.activate(config);
     }
 

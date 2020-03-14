@@ -27,7 +27,6 @@ import org.eclipse.smarthome.core.thing.Bridge;
 import org.eclipse.smarthome.core.util.HexUtils;
 import org.eclipse.smarthome.io.transport.mqtt.MqttBrokerConnection;
 import org.eclipse.smarthome.io.transport.mqtt.MqttConnectionState;
-import org.eclipse.smarthome.io.transport.mqtt.MqttService;
 import org.eclipse.smarthome.io.transport.mqtt.MqttWillAndTestament;
 import org.eclipse.smarthome.io.transport.mqtt.reconnect.PeriodicReconnectStrategy;
 import org.openhab.binding.mqtt.internal.ssl.Pin;
@@ -42,7 +41,7 @@ import org.slf4j.LoggerFactory;
  * This handler provided more detailed connection information from a
  * {@link MqttBrokerConnection} via a Thing property, put the Thing
  * offline or online depending on the connection and adds the configured
- * connection to the {@link MqttService}.
+ * connection to the MqttService.
  *
  * @author David Graeff - Initial contribution
  */
@@ -109,6 +108,7 @@ public class BrokerHandler extends AbstractBrokerHandler implements PinnedCallba
     public void pinnedConnectionAccepted() {
     }
 
+    @SuppressWarnings("null")
     @Override
     public void dispose() {
         try {
@@ -183,6 +183,7 @@ public class BrokerHandler extends AbstractBrokerHandler implements PinnedCallba
      * @return Returns a valid MqttBrokerConnection
      * @throws IllegalArgumentException If the configuration is invalid, this exception is thrown.
      */
+    @SuppressWarnings({ "deprecation", "null" })
     protected MqttBrokerConnection createBrokerConnection() throws IllegalArgumentException {
         String host = config.host;
         if (StringUtils.isBlank(host) || host == null) {

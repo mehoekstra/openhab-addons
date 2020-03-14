@@ -79,6 +79,8 @@ public class CFactory {
         return null;
     }
 
+    @SuppressWarnings("null")
+    @NonNullByDefault
     protected static class ComponentConfiguration {
         private final ThingUID thingUID;
         private final HaID haID;

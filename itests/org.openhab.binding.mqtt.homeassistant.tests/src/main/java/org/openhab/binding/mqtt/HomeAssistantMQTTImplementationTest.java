@@ -32,6 +32,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.core.types.State;
 import org.eclipse.smarthome.core.types.UnDefType;
 import org.eclipse.smarthome.core.util.UIDUtils;
@@ -64,6 +65,8 @@ import com.google.gson.GsonBuilder;
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+        org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE, org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND })
 public class HomeAssistantMQTTImplementationTest extends JavaOSGiTest {
     private MqttService mqttService;
     private MqttBrokerConnection embeddedConnection;
@@ -89,6 +92,7 @@ public class HomeAssistantMQTTImplementationTest extends JavaOSGiTest {
     private String testObjectTopic;
 
     @Before
+    @NonNullByDefault
     public void setUp() throws InterruptedException, ExecutionException, TimeoutException, IOException {
         registerVolatileStorageService();
         initMocks(this);
@@ -150,6 +154,7 @@ public class HomeAssistantMQTTImplementationTest extends JavaOSGiTest {
     }
 
     @Test
+    @SuppressWarnings("unused")
     public void parseHATree() throws InterruptedException, ExecutionException, TimeoutException {
         MqttChannelTypeProvider channelTypeProvider = mock(MqttChannelTypeProvider.class);
 

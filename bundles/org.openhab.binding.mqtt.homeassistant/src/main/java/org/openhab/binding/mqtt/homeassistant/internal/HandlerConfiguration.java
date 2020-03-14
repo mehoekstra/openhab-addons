@@ -27,6 +27,7 @@ import org.openhab.binding.mqtt.homeassistant.internal.handler.HomeAssistantThin
  * @author David Graeff - Initial contribution
  */
 @NonNullByDefault
+@SuppressWarnings("unused")
 public class HandlerConfiguration {
     /**
      * hint: cannot be final, or <code>getConfigAs</code> will not work.

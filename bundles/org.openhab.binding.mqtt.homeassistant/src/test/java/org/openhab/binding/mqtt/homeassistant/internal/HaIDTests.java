@@ -19,12 +19,14 @@ import static org.junit.Assert.assertThat;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.config.core.Configuration;
 import org.junit.Test;
 
 /**
  * @author Jochen Klein - Initial contribution
  */
+@NonNullByDefault
 public class HaIDTests {
 
     @Test

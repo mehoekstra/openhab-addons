@@ -27,7 +27,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Stream;
 
-import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.io.transport.mqtt.MqttBrokerConnection;
 import org.junit.Before;
@@ -53,6 +53,9 @@ import org.openhab.binding.mqtt.generic.mapping.AbstractMqttAttributeClass.Attri
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+        org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE, org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+        org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
 public class MqttTopicClassMapperTests {
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ FIELD })
@@ -61,6 +64,11 @@ public class MqttTopicClassMapperTests {
     }
 
     @TopicPrefix
+    @SuppressWarnings("null")
+    @NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+            org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE,
+            org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+            org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
     public static class Attributes extends AbstractMqttAttributeClass {
         public transient String ignoreTransient = "";
         public final String ignoreFinal = "";
@@ -92,7 +100,7 @@ public class MqttTopicClassMapperTests {
         public @TestValue("integer") @MQTTvalueTransform(suffix = "_") DataTypeEnum datatype = DataTypeEnum.unknown;
 
         @Override
-        public @NonNull Object getFieldsOf() {
+        public Object getFieldsOf() {
             return this;
         }
     }
@@ -142,8 +150,8 @@ public class MqttTopicClassMapperTests {
                 anyBoolean());
 
         // Subscribe now to all fields
-        CompletableFuture<Void> future = attributes.subscribeAndReceive(connection, executor, "homie/device123", null,
-                10);
+        CompletableFuture<@Nullable Void> future = attributes.subscribeAndReceive(connection, executor,
+                "homie/device123", null, 10);
         assertThat(future.isDone(), is(true));
         assertThat(attributes.subscriptions.size(), is(10 + injectedFields));
     }
@@ -160,8 +168,8 @@ public class MqttTopicClassMapperTests {
         verify(connection, times(0)).subscribe(anyString(), any());
 
         // Subscribe now to all fields
-        CompletableFuture<Void> future = attributes.subscribeAndReceive(connection, executor, "homie/device123",
-                fieldChangedObserver, 10);
+        CompletableFuture<@Nullable Void> future = attributes.subscribeAndReceive(connection, executor,
+                "homie/device123", fieldChangedObserver, 10);
         assertThat(future.isDone(), is(true));
 
         // We expect 10 subscriptions now

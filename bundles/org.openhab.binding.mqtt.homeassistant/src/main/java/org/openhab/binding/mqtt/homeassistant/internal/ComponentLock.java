@@ -29,6 +29,8 @@ public class ComponentLock extends AbstractComponent<ComponentLock.ChannelConfig
     /**
      * Configuration class for MQTT component
      */
+    @SuppressWarnings("null")
+    @NonNullByDefault
     static class ChannelConfiguration extends BaseChannelConfiguration {
         ChannelConfiguration() {
             super("MQTT Lock");
@@ -54,7 +56,7 @@ public class ComponentLock extends AbstractComponent<ComponentLock.ChannelConfig
                 new OnOffValue(channelConfiguration.payload_lock, channelConfiguration.payload_unlock),
                 channelConfiguration.name, componentConfiguration.getUpdateListener())//
                         .stateTopic(channelConfiguration.state_topic, channelConfiguration.value_template)//
-                        .commandTopic(channelConfiguration.command_topic, channelConfiguration.retain)//
+                        .commandTopic(channelConfiguration.command_topic, channelConfiguration.retain, 0)//
                         .build();
     }
 }

@@ -20,6 +20,8 @@ import static org.openhab.binding.mqtt.generic.internal.handler.ThingChannelCons
 
 import java.util.concurrent.CompletableFuture;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.config.core.Configuration;
 import org.eclipse.smarthome.core.library.types.OnOffType;
 import org.eclipse.smarthome.core.library.types.StringType;
@@ -51,6 +53,9 @@ import org.openhab.binding.mqtt.handler.AbstractBrokerHandler;
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+        org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE, org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+        org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
 public class GenericThingHandlerTests {
     @Mock
     private ThingHandlerCallback callback;
@@ -80,7 +85,7 @@ public class GenericThingHandlerTests {
         // Return the mocked connection object if the bridge handler is asked for it
         when(bridgeHandler.getConnectionAsync()).thenReturn(CompletableFuture.completedFuture(connection));
 
-        CompletableFuture<Void> voidFutureComplete = new CompletableFuture<Void>();
+        CompletableFuture<@Nullable Void> voidFutureComplete = new CompletableFuture<@Nullable Void>();
         voidFutureComplete.complete(null);
         doReturn(voidFutureComplete).when(connection).unsubscribeAll();
         doReturn(CompletableFuture.completedFuture(true)).when(connection).subscribe(any(), any());

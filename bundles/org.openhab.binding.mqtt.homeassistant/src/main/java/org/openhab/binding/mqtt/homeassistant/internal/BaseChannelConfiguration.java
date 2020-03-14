@@ -38,6 +38,8 @@ public abstract class BaseChannelConfiguration {
      * Without this, {@link BaseChannelConfiguration} cannot be instantiated, as it is abstract.
      * This is needed during the discovery.
      */
+    @SuppressWarnings("null")
+    @NonNullByDefault
     private static class Config extends BaseChannelConfiguration {
         public Config() {
             super("private");
@@ -93,6 +95,8 @@ public abstract class BaseChannelConfiguration {
 
     protected @Nullable Device device;
 
+    @SuppressWarnings("null")
+    @NonNullByDefault
     static class Device {
         @JsonAdapter(ListOrStringDeserializer.class)
         protected @Nullable List<String> identifiers;
@@ -109,11 +113,14 @@ public abstract class BaseChannelConfiguration {
     }
 
     @JsonAdapter(ConnectionDeserializer.class)
+    @SuppressWarnings("null")
+    @NonNullByDefault
     static class Connection {
         protected @Nullable String type;
         protected @Nullable String identifier;
     }
 
+    @SuppressWarnings("null")
     public String getThingName() {
         @Nullable
         String result = null;
@@ -127,6 +134,7 @@ public abstract class BaseChannelConfiguration {
         return result;
     }
 
+    @SuppressWarnings("null")
     public String getThingId(String defaultId) {
         @Nullable
         String result = null;

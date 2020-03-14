@@ -12,16 +12,14 @@
  */
 package org.openhab.binding.mqtt.internal;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-import java.util.HashMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.config.core.Configuration;
 import org.eclipse.smarthome.core.thing.Bridge;
 import org.eclipse.smarthome.core.thing.binding.ThingHandlerCallback;
@@ -30,25 +28,23 @@ import org.eclipse.smarthome.io.transport.mqtt.MqttService;
 import org.eclipse.smarthome.io.transport.mqtt.internal.TopicSubscribers;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openhab.binding.mqtt.discovery.MQTTTopicDiscoveryParticipant;
-import org.openhab.binding.mqtt.discovery.MQTTTopicDiscoveryService;
-import org.openhab.binding.mqtt.discovery.TopicSubscribe;
 import org.openhab.binding.mqtt.handler.BrokerHandler;
 import org.openhab.binding.mqtt.handler.BrokerHandlerEx;
 import org.openhab.binding.mqtt.handler.MqttBrokerConnectionEx;
-import org.openhab.binding.mqtt.internal.MqttBrokerHandlerFactory;
-import org.openhab.binding.mqtt.internal.MqttThingID;
 import org.osgi.service.cm.ConfigurationException;
 
 /**
- * Test cases for the {@link MQTTTopicDiscoveryService} service.
+ * Test cases for the MQTTTopicDiscoveryService service.
  *
  * @author David Graeff - Initial contribution
  */
+@NonNullByDefault({ org.eclipse.jdt.annotation.DefaultLocation.PARAMETER,
+        org.eclipse.jdt.annotation.DefaultLocation.RETURN_TYPE, org.eclipse.jdt.annotation.DefaultLocation.TYPE_BOUND,
+        org.eclipse.jdt.annotation.DefaultLocation.TYPE_ARGUMENT })
 public class MQTTTopicDiscoveryServiceTest {
     private ScheduledExecutorService scheduler;
 
@@ -100,7 +96,6 @@ public class MQTTTopicDiscoveryServiceTest {
     public void firstSubscribeThenHandler() {
         handler.initialize();
         BrokerHandlerEx.verifyCreateBrokerConnection(handler, 1);
-
         subject.subscribe(listener, "topic");
         subject.createdHandler(handler);
         assertTrue(subject.discoveryTopics.get("topic").contains(listener));

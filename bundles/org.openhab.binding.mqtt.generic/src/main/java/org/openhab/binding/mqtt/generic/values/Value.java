@@ -49,6 +49,7 @@ import org.eclipse.smarthome.core.types.UnDefType;
  * @author David Graeff - Initial contribution
  */
 @NonNullByDefault
+@SuppressWarnings("unused")
 public abstract class Value {
     protected State state = UnDefType.UNDEF;
     protected final List<Class<? extends Command>> commandTypes;
