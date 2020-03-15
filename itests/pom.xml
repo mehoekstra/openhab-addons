@@ -146,8 +146,6 @@
             <groupId>biz.aQute.bnd</groupId>
             <artifactId>bnd-testing-maven-plugin</artifactId>
             <configuration>
-              <failOnChanges>false</failOnChanges>
-              <resolve>true</resolve>
               <bndruns>
                 <bndrun>itest.bndrun</bndrun>
               </bndruns>

@@ -105,5 +105,19 @@
      <scope>runtime</scope>
      </dependency>
   </dependencies>
-
+   <build>
+    <plugins>
+      <plugin>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-testing-maven-plugin</artifactId>
+        <configuration>
+          <resolve>true</resolve>
+          <failOnChanges>false</failOnChanges>
+          <bndruns>
+            <bndrun>itest.bndrun</bndrun>
+          </bndruns>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
